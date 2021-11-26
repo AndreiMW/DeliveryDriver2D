@@ -9,7 +9,8 @@ public class Driver : MonoBehaviour {
 	[SerializeField] 
 	private float _steerSpeed;
 
-	[SerializeField] private Transform _arrow;
+	[SerializeField] 
+	private Transform _arrow;
 	
 	private Transform _transform;
 	private bool _hasPackage;
@@ -19,6 +20,9 @@ public class Driver : MonoBehaviour {
 
 	private SpriteRenderer _renderer;
 	private Vector3 _customerPosition;
+
+	public event Action OnPackagePicked;
+	public event Action OnPackageDelivered;
 	
     // Start is called before the first frame update
     void Start() {
@@ -68,7 +72,7 @@ public class Driver : MonoBehaviour {
 	    if (this._hasPackage) {
 		    if (other.CompareTag("Customer")) {
 			    if (other.GetComponent<SpriteRenderer>().color == this._renderer.color) {
-				    Debug.Log("Package delivered");
+				    this.OnPackageDelivered?.Invoke();
 				    this._renderer.color = Color.white;
 				    this._hasPackage = false;
 				    Destroy(other.gameObject);   
@@ -78,7 +82,7 @@ public class Driver : MonoBehaviour {
 		    }   
 	    } else {
 		    if (other.CompareTag("Package")) {
-			    Debug.Log("Package picked up!");
+			    this.OnPackagePicked?.Invoke();
 			    this._hasPackage = true;
 			    this._renderer.color = other.GetComponent<SpriteRenderer>().color;
 			    this._customerPosition = other.GetComponent<Package>().CustomerPosition.position;

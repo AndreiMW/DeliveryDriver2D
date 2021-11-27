@@ -1,6 +1,13 @@
 using System;
-using Unity.VisualScripting;
+
 using UnityEngine;
+
+/**
+ * Created Date: 11/25/2021
+ * Author: Andrei-Florin Ciobanu
+ * 
+ * Copyright (c) 2021 Andrei-Florin Ciobanu. All rights reserved. 
+ */
 
 public class Driver : MonoBehaviour {
 	[SerializeField] 
@@ -8,23 +15,19 @@ public class Driver : MonoBehaviour {
 	
 	[SerializeField] 
 	private float _steerSpeed;
-
-	[SerializeField] 
-	private Transform _arrow;
 	
+	private SpriteRenderer _renderer;	
 	private Transform _transform;
+	
 	private bool _hasPackage;
 	private bool _isMoving;
 
-	private Vector3 _leftSteer;
+	private Vector3 _steeringDirection;
 
-	private SpriteRenderer _renderer;
-	private Vector3 _customerPosition;
-
-	public event Action OnPackagePicked;
+	public event Action<Vector3> OnPackagePicked;
 	public event Action OnPackageDelivered;
 	
-    // Start is called before the first frame update
+    #region Lifecycle
     void Start() {
 	    this._transform = this.GetComponent<Transform>();
 	    this._renderer = this.GetComponent<SpriteRenderer>();
@@ -33,36 +36,32 @@ public class Driver : MonoBehaviour {
     void Update() {
 	    if (Input.GetKey(KeyCode.W)) {
 		    this._transform.Translate(Vector3.up * (this._speed * Time.deltaTime));
-		    this._leftSteer = Vector3.forward;
+		    this._steeringDirection = Vector3.forward;
 		    this._isMoving = true;
 	    }
 
 	    if (Input.GetKey(KeyCode.S)) {
 		    this._transform.Translate(Vector3.down * (this._speed * Time.deltaTime));
-		    this._leftSteer = Vector3.back;
+		    this._steeringDirection = Vector3.back;
 		    this._isMoving = true;
 	    }
 
 	    if (Input.GetKey(KeyCode.A) && this._isMoving) {
-		    this._transform.Rotate(this._leftSteer * (this._steerSpeed * Time.deltaTime));
+		    this._transform.Rotate(this._steeringDirection * (this._steerSpeed * Time.deltaTime));
 	    }
 
 	    if (Input.GetKey(KeyCode.D) && this._isMoving) {
-		    this._transform.Rotate(-this._leftSteer * (this._steerSpeed * Time.deltaTime));
+		    this._transform.Rotate(-this._steeringDirection * (this._steerSpeed * Time.deltaTime));
 	    }
 
 	    if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S)) {
 		    this._isMoving = false;
 	    }
-
-	    if (this._hasPackage && this._customerPosition != Vector3.zero) {
-			Vector2 direction = (this._customerPosition - this._arrow.transform.position).normalized;
-			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-			Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-			this._arrow.transform.rotation = Quaternion.Slerp(this._arrow.transform.rotation, rotation, 10 * Time.deltaTime);
-	    }
-
-}
+    }
+    
+    #endregion
+    
+    #region Physics
 
     private void OnCollisionEnter2D(Collision2D other) {
 	    Debug.Log("OUCH");
@@ -73,7 +72,7 @@ public class Driver : MonoBehaviour {
 		    if (other.CompareTag("Customer")) {
 			    if (other.GetComponent<SpriteRenderer>().color == this._renderer.color) {
 				    this.OnPackageDelivered?.Invoke();
-				    this._renderer.color = Color.white;
+				    this.SetCarColor(Color.white);
 				    this._hasPackage = false;
 				    Destroy(other.gameObject);   
 			    } else {
@@ -82,12 +81,22 @@ public class Driver : MonoBehaviour {
 		    }   
 	    } else {
 		    if (other.CompareTag("Package")) {
-			    this.OnPackagePicked?.Invoke();
+			    this.OnPackagePicked?.Invoke(other.GetComponent<Package>().CustomerPosition.position);
 			    this._hasPackage = true;
-			    this._renderer.color = other.GetComponent<SpriteRenderer>().color;
-			    this._customerPosition = other.GetComponent<Package>().CustomerPosition.position;
+			    this.SetCarColor(other.GetComponent<SpriteRenderer>().color);
 			    Destroy(other.gameObject);
 		    }
 	    }
     }
+    
+    #endregion
+    
+    #region Private
+
+    private void SetCarColor(Color color) {
+	    this._renderer.color = color;
+    }
+    
+    #endregion
+    
 }

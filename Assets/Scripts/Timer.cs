@@ -17,7 +17,7 @@ public class Timer : MonoBehaviour {
     }
 
     private void Update() {
-        if (this._isTimerStarted) {
+        if (this._isTimerStarted && GameManager.Instance.IsGameStarted) {
             if (this._initialTime > 0) {
                 if (this._isTimerStarted) {
                     this._initialTime -= Time.deltaTime;   
@@ -28,7 +28,7 @@ public class Timer : MonoBehaviour {
                 if (this._isTimerStarted){
                     this._isTimerStarted = false;
                     this._initialTime = 0f;
-                    Debug.Log("Game over");
+                    GameManager.Instance.GameOver(false);
                 }
             }
         }

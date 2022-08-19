@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 /**
@@ -13,16 +14,10 @@ public class DirectionArrow : MonoBehaviour {
 		Following = 1
 	}
 	private Vector3 _target;
-	private Animator _animator;
 
 	private ArrowState _state;
 	
 	#region Lifecycle
-
-	private void Awake() {
-		this._animator = this.GetComponent<Animator>();
-		
-	}
 
 	private void Update() {
 		if (this._state == ArrowState.Following) {
@@ -42,7 +37,7 @@ public class DirectionArrow : MonoBehaviour {
 	/// </summary>
 	/// <param name="target"></param>
 	public void SetTarget(Vector3 target) {
-		this._animator.Play("PackageTextAnimationFadeIn");
+		this.transform.DOScale(Vector3.one, 0.4f).SetEase(Ease.OutBack);
 		this._target = target;
 		this.ChangeState(ArrowState.Following);
 	}
@@ -51,7 +46,7 @@ public class DirectionArrow : MonoBehaviour {
 	/// Reset the target.
 	/// </summary>
 	public void ResetTarget() {
-		this._animator.Play("PackageTextAnimationFadeOut");
+		this.transform.DOScale(Vector3.zero, 0.2f);
 		this._target = Vector3.zero;
 		this.ChangeState(ArrowState.Idle);
 	}

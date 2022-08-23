@@ -16,7 +16,7 @@ public class UserSettings : UnitySingleton<UserSettings>{
     #region Load Settings
 
     public void LoadSettings() {
-        this.CurrentLevelIndex = PlayerPrefs.GetInt(CURRENT_LEVEL_INDEX);
+        this.CurrentLevelIndex = PlayerPrefs.GetInt(CURRENT_LEVEL_INDEX, 0);
     }
     
     #endregion

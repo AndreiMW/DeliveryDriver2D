@@ -2,7 +2,6 @@
 using UnityEngine;
 
 public class Timer : MonoBehaviour {
-    [SerializeField] 
     private float _initialTime;
 
     [SerializeField] 
@@ -12,8 +11,11 @@ public class Timer : MonoBehaviour {
     
     #region Lifecycle
 
-    private void Start() {
-        this._isTimerStarted = true;
+    private void Awake() {
+        LevelManager.Instance.OnLevelLoaded += () => {
+            this._initialTime = LevelManager.Instance.CurrentLevelData.Time;
+            this._isTimerStarted = true;
+        };
     }
 
     private void Update() {

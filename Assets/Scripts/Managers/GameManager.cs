@@ -7,11 +7,8 @@ using UnityEngine;
  * Copyright (c) 2021 Andrei-Florin Ciobanu. All rights reserved. 
  */
 
-public class GameManager : MonoBehaviour{
-	private static GameManager s_instance; 
-	public static GameManager Instance => s_instance ? s_instance : FindObjectOfType<GameManager>();
-	
-	public bool IsGameStarted{ get; private set; }
+public class GameManager : UnitySingleton<GameManager>{
+public bool IsGameStarted{ get; private set; }
 	
 	[SerializeField]
 	private Driver _driver;
@@ -26,15 +23,19 @@ public class GameManager : MonoBehaviour{
 	
 	#region Lifecycle
 
-	private void Awake() {
+	public override void Awake() {
 		this._driver.OnPackagePicked += this.HandleOnPackagePicked;
 		this._driver.OnPackageDelivered += this.HandleOnPackageDelivered;
 
 		this._numberOfPackages = FindObjectsOfType<Package>().Length;
+	}
 
+	private void Start() {
+		//TODO Trigger level start differently
+		LevelManager.Instance.LoadLevel();
 		this.IsGameStarted = true;
 	}
-	
+
 	#endregion
 	
 	#region Public
@@ -42,10 +43,10 @@ public class GameManager : MonoBehaviour{
 	public void GameOver(bool won) {
 		this.IsGameStarted = false;
 		if (won){
-			Debug.Log("Game WON.");
+			//TODO Show GameWon UI
 		}
 		else{
-			Debug.Log("Game over man.");	
+			//TODO Show GameLost UI
 		}
 	}
 	

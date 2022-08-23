@@ -15,14 +15,16 @@ public class LevelManager : UnitySingleton<LevelManager>{
     private LevelData[] _levelDatas;
     public LevelData CurrentLevelData{ get; private set; }
     public Level CurrentLevelInstance{ get; private set; }
-
-    private int _levelIndex = 0;
+    
+    private int _currentLevelIndex;
+    private int _actualLevelIndex;
 
     #region Lifecycle
 
     public override void Awake() {
         base.Awake();
         this._levelDatas = Resources.LoadAll<LevelData>("LevelData");
+        this._currentLevelIndex = UserSettings.Instance.CurrentLevelIndex;
     }
 
     #endregion
@@ -30,14 +32,19 @@ public class LevelManager : UnitySingleton<LevelManager>{
     #region Public
 
     public void LoadLevel() {
-        this.CurrentLevelData = this._levelDatas[this._levelIndex];
+        this._actualLevelIndex = this._currentLevelIndex;
+        while (this._actualLevelIndex >= this._levelDatas.Length) {
+            this._actualLevelIndex -= (this._levelDatas.Length - 1);
+        }
+        Debug.Log($"Loaded level {this._actualLevelIndex} for {this._currentLevelIndex}");
+        this.CurrentLevelData = this._levelDatas[this._actualLevelIndex];
         if (this.CurrentLevelInstance != null){
             Destroy(this.CurrentLevelInstance.gameObject);
             this.CurrentLevelInstance = null;
         }
-        this.CurrentLevelInstance = GameObject.Instantiate(this._levelDatas[this._levelIndex].LevelPrefab, this.transform);
+        this.CurrentLevelInstance = GameObject.Instantiate(this._levelDatas[this._actualLevelIndex].LevelPrefab, this.transform);
         this.OnLevelLoaded?.Invoke();
-        this._levelIndex++;
+        this._currentLevelIndex++;
     }
     
     #endregion

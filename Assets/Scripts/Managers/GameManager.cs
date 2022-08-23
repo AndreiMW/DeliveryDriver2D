@@ -26,14 +26,14 @@ public bool IsGameStarted{ get; private set; }
 	public override void Awake() {
 		this._driver.OnPackagePicked += this.HandleOnPackagePicked;
 		this._driver.OnPackageDelivered += this.HandleOnPackageDelivered;
-
-		this._numberOfPackages = FindObjectsOfType<Package>().Length;
 	}
 
 	private void Start() {
 		//TODO Trigger level start differently
 		LevelManager.Instance.LoadLevel();
 		this.IsGameStarted = true;
+		//TODO Add number of packages as a property in Level 
+		this._numberOfPackages = FindObjectsOfType<Package>().Length;
 	}
 
 	#endregion

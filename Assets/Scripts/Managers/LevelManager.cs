@@ -24,7 +24,10 @@ public class LevelManager : UnitySingleton<LevelManager>{
     public override void Awake() {
         base.Awake();
         this._levelDatas = Resources.LoadAll<LevelData>("LevelData");
-        this._currentLevelIndex = UserSettings.Instance.CurrentLevelIndex;
+    }
+
+    private void Start() {
+	    this._currentLevelIndex = UserSettings.Instance.CurrentLevelIndex;
     }
 
     #endregion
@@ -32,7 +35,7 @@ public class LevelManager : UnitySingleton<LevelManager>{
     #region Public
 
     public void LoadLevel() {
-        this._actualLevelIndex = this._currentLevelIndex;
+	    this._actualLevelIndex = this._currentLevelIndex;
         while (this._actualLevelIndex >= this._levelDatas.Length) {
             this._actualLevelIndex -= (this._levelDatas.Length - 1);
         }
@@ -45,6 +48,8 @@ public class LevelManager : UnitySingleton<LevelManager>{
         this.CurrentLevelInstance = GameObject.Instantiate(this._levelDatas[this._actualLevelIndex].LevelPrefab, this.transform);
         this.OnLevelLoaded?.Invoke();
         this._currentLevelIndex++;
+        
+        UserSettings.Instance.CurrentLevelIndex = this._currentLevelIndex;
     }
     
     #endregion

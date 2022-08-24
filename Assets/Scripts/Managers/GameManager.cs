@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /**
@@ -24,6 +25,7 @@ public bool IsGameStarted{ get; private set; }
 	#region Lifecycle
 
 	public override void Awake() {
+		UserSettings.Instance.LoadSettings();
 		this._driver.OnPackagePicked += this.HandleOnPackagePicked;
 		this._driver.OnPackageDelivered += this.HandleOnPackageDelivered;
 	}
@@ -42,6 +44,7 @@ public bool IsGameStarted{ get; private set; }
 	public void GameOver(bool won) {
 		this.IsGameStarted = false;
 		if (won){
+			UserSettings.Instance.SaveSettings();
 			//TODO Show GameWon UI
 		}
 		else{

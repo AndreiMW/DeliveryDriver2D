@@ -32,8 +32,7 @@ public bool IsGameStarted{ get; private set; }
 		//TODO Trigger level start differently
 		LevelManager.Instance.LoadLevel();
 		this.IsGameStarted = true;
-		//TODO Add number of packages as a property in Level 
-		this._numberOfPackages = FindObjectsOfType<Package>().Length;
+		this._numberOfPackages = LevelManager.Instance.CurrentLevelInstance.PackagesInLevel;
 	}
 
 	#endregion

@@ -8,5 +8,9 @@
 using UnityEngine;
 
 public class Level : MonoBehaviour{
-    
+	[SerializeField]
+	private Package[] _packages;
+
+	public int PackagesInLevel => this._packages.Length;
+
 }

@@ -17,8 +17,20 @@ namespace UI {
 
 		private void Awake() {
 			this._button.onClick.AddListener(this.HandleButtonAction);
+			this.gameObject.SetActive(false);
 		}
 
+		#endregion
+		
+		#region Public
+
+		/// <summary>
+		/// Show the UI.
+		/// </summary>
+		public void Show() {
+			this.gameObject.SetActive(true);
+		}
+		
 		#endregion
 		
 		#region Protected
@@ -28,6 +40,7 @@ namespace UI {
 		/// </summary>
 		protected virtual void HandleButtonAction() {
 			LevelManager.Instance.LoadLevel();
+			this.gameObject.SetActive(false);
 		}
 		
 		#endregion

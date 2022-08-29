@@ -34,6 +34,9 @@ public class LevelManager : UnitySingleton<LevelManager>{
     
     #region Public
 
+    /// <summary>
+    /// Load next level index that is saved in PlayerPrefs.
+    /// </summary>
     public void LoadLevel() {
 	    this._actualLevelIndex = this._currentLevelIndex;
         while (this._actualLevelIndex >= this._levelDatas.Length) {
@@ -47,9 +50,15 @@ public class LevelManager : UnitySingleton<LevelManager>{
         }
         this.CurrentLevelInstance = GameObject.Instantiate(this._levelDatas[this._actualLevelIndex].LevelPrefab, this.transform);
         this.OnLevelLoaded?.Invoke();
-        this._currentLevelIndex++;
+    }
+
+    /// <summary>
+    /// Increase the level index.
+    /// </summary>
+    public void IncrementLevelIndex() {
+	    this._currentLevelIndex++;
         
-        UserSettings.Instance.CurrentLevelIndex = this._currentLevelIndex;
+	    UserSettings.Instance.CurrentLevelIndex = this._currentLevelIndex;	    
     }
     
     #endregion

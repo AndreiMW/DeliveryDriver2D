@@ -1209,7 +1209,7 @@ GameObject:
   - component: {fileID: 1297751319569256821}
   - component: {fileID: 1297751319569256820}
   m_Layer: 5
-  m_Name: LevelFailedImage
+  m_Name: TitleImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1829,6 +1829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea98dd8e26148648d9510a968bd6059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _titleImage: {fileID: 1297751320924007777}
   _button: {fileID: 1297751320015069714}
 --- !u!1 &1297751320735444701
 GameObject:
@@ -1909,7 +1910,7 @@ GameObject:
   - component: {fileID: 1297751320924007782}
   - component: {fileID: 1297751320924007777}
   m_Layer: 5
-  m_Name: LevelFailedImage
+  m_Name: TitleImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2364,6 +2365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c03c924a5f5a4be98f03e0180f13a5d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _titleImage: {fileID: 1297751319569256820}
   _button: {fileID: 1297751321089982757}
 --- !u!1 &1297751321519777290
 GameObject:

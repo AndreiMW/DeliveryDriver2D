@@ -16,6 +16,8 @@ public class Driver : MonoBehaviour {
 	[SerializeField] 
 	private float _steerSpeed;
 	
+	public bool CanDrive { get; set; }
+	
 	private SpriteRenderer _renderer;	
 	private Transform _transform;
 	
@@ -23,6 +25,8 @@ public class Driver : MonoBehaviour {
 	private bool _isMoving;
 
 	private Vector3 _steeringDirection;
+	private Vector3 _originalPosition;
+	private Quaternion _originalRotation;
 
 	public event Action<Vector3> OnPackagePicked;
 	public event Action OnPackageDelivered;
@@ -31,32 +35,50 @@ public class Driver : MonoBehaviour {
     void Start() {
 	    this._transform = this.GetComponent<Transform>();
 	    this._renderer = this.GetComponent<SpriteRenderer>();
+	    
+	    this._originalPosition = this._transform.position;
+	    this._originalRotation = this._transform.rotation;
     }
 
     void Update() {
-	    if (Input.GetKey(KeyCode.W)) {
-		    this._transform.Translate(Vector3.up * (this._speed * Time.deltaTime));
-		    this._steeringDirection = Vector3.forward;
-		    this._isMoving = true;
-	    }
+	    if (this.CanDrive) {
+		    if (Input.GetKey(KeyCode.W)) {
+			    this._transform.Translate(Vector3.up * (this._speed * Time.deltaTime));
+			    this._steeringDirection = Vector3.forward;
+			    this._isMoving = true;
+		    }
 
-	    if (Input.GetKey(KeyCode.S)) {
-		    this._transform.Translate(Vector3.down * (this._speed * Time.deltaTime));
-		    this._steeringDirection = Vector3.back;
-		    this._isMoving = true;
-	    }
+		    if (Input.GetKey(KeyCode.S)) {
+			    this._transform.Translate(Vector3.down * (this._speed * Time.deltaTime));
+			    this._steeringDirection = Vector3.back;
+			    this._isMoving = true;
+		    }
 
-	    if (Input.GetKey(KeyCode.A) && this._isMoving) {
-		    this._transform.Rotate(this._steeringDirection * (this._steerSpeed * Time.deltaTime));
-	    }
+		    if (Input.GetKey(KeyCode.A) && this._isMoving) {
+			    this._transform.Rotate(this._steeringDirection * (this._steerSpeed * Time.deltaTime));
+		    }
 
-	    if (Input.GetKey(KeyCode.D) && this._isMoving) {
-		    this._transform.Rotate(-this._steeringDirection * (this._steerSpeed * Time.deltaTime));
-	    }
+		    if (Input.GetKey(KeyCode.D) && this._isMoving) {
+			    this._transform.Rotate(-this._steeringDirection * (this._steerSpeed * Time.deltaTime));
+		    }
 
-	    if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S)) {
-		    this._isMoving = false;
+		    if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S)) {
+			    this._isMoving = false;
+		    }   
 	    }
+    }
+    
+    #endregion
+    
+    #region Public
+
+    /// <summary>
+    /// Reset position and rotation;
+    /// </summary>
+    public void Reset() {
+	    this._transform.SetPositionAndRotation(this._originalPosition,this._originalRotation);
+	    this.SetCarColor(Color.white);
+	    this._hasPackage = false;
     }
     
     #endregion

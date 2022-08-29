@@ -6,7 +6,7 @@
  */
 
 using System;
-
+using Managers;
 using UnityEngine;
 
 public class LevelManager : UnitySingleton<LevelManager>{
@@ -50,6 +50,9 @@ public class LevelManager : UnitySingleton<LevelManager>{
         }
         this.CurrentLevelInstance = GameObject.Instantiate(this._levelDatas[this._actualLevelIndex].LevelPrefab, this.transform);
         this.OnLevelLoaded?.Invoke();
+        
+        GameManager.Instance.IsGameStarted = true;
+        GameManager.Instance.Driver.Reset();
     }
 
     /// <summary>

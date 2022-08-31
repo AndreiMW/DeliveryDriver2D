@@ -1,5 +1,3 @@
-using UnityEngine;
-
 /**
  * Created Date: 11/25/2021
  * Author: Andrei-Florin Ciobanu
@@ -7,11 +5,15 @@ using UnityEngine;
  * Copyright (c) 2021 Andrei-Florin Ciobanu. All rights reserved. 
  */
 
-public class FollowCamera : MonoBehaviour {
-	[SerializeField]
-	private Transform _car;
+using UnityEngine;
 
-	private void Update() {
-		this.transform.position = this._car.position - Vector3.forward * 10;
+namespace Gameplay {
+	public class FollowCamera : MonoBehaviour {
+		[SerializeField]
+		private Transform _car;
+
+		private void Update() {
+			this.transform.position = this._car.position - Vector3.forward * 10;
+		}
 	}
 }

@@ -6,15 +6,19 @@
  */
 
 using System;
-using Managers;
+
 using UnityEngine;
 
+using CurrentLevel = Level.Level;
+using Level;
+
+namespace Managers {
 public class LevelManager : UnitySingleton<LevelManager>{
     public event Action OnLevelLoaded;
     
     private LevelData[] _levelDatas;
     public LevelData CurrentLevelData{ get; private set; }
-    public Level CurrentLevelInstance{ get; private set; }
+    public CurrentLevel CurrentLevelInstance{ get; private set; }
     
     private int _currentLevelIndex;
     private int _actualLevelIndex;
@@ -65,4 +69,5 @@ public class LevelManager : UnitySingleton<LevelManager>{
     }
     
     #endregion
+	}	
 }

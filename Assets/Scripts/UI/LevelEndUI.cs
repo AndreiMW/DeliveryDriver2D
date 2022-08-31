@@ -10,6 +10,8 @@ using UnityEngine.UI;
 
 using DG.Tweening;
 
+using Managers;
+
 namespace UI {
 	public class LevelEndUI : MonoBehaviour {
 		[SerializeField]

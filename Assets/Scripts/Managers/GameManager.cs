@@ -6,7 +6,9 @@
 */
 
 using UnityEngine;
-using StatusPackage = PackageStatusTextController.PackageStatus;
+
+using Gameplay;
+using StatusPackage = Gameplay.PackageStatusTextController.PackageStatus;
 
 namespace Managers {
 	public class GameManager : UnitySingleton<GameManager> {

@@ -5,8 +5,9 @@
  * Copyright (c) 2022 Andrei-Florin Ciobanu. All rights reserved. 
  */
 
-using UI;
 using UnityEngine;
+
+using UI;
 
 namespace Managers {
 	public class UIManager : UnitySingleton<UIManager> {

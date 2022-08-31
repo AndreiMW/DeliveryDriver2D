@@ -1,7 +1,3 @@
-using System;
-
-using UnityEngine;
-
 /**
  * Created Date: 11/25/2021
  * Author: Andrei-Florin Ciobanu
@@ -9,7 +5,12 @@ using UnityEngine;
  * Copyright (c) 2021 Andrei-Florin Ciobanu. All rights reserved. 
  */
 
-public class Driver : MonoBehaviour {
+using System;
+
+using UnityEngine;
+
+namespace Gameplay {
+	public class Driver : MonoBehaviour {
 	[SerializeField] 
 	private float _speed;
 	
@@ -125,4 +126,5 @@ public class Driver : MonoBehaviour {
     
     #endregion
     
+	}
 }

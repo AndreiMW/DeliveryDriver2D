@@ -7,14 +7,15 @@
 
 using UnityEngine;
 
-
-[CreateAssetMenu(fileName = "Level000", menuName = "Level/CreateLevelData")]
-public class LevelData : ScriptableObject {
+namespace Level {
+	[CreateAssetMenu(fileName = "Level000", menuName = "Level/CreateLevelData")]
+	public class LevelData : ScriptableObject {
  
- [field : SerializeField] 
- public Level LevelPrefab {get; private set;} 
+		[field : SerializeField] 
+		public Level LevelPrefab {get; private set;} 
 
- [field : SerializeField] 
- public float Time {get; private set;}
+		[field : SerializeField] 
+		public float Time {get; private set;}
  
+	}
 }

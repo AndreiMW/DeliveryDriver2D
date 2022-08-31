@@ -1067,6 +1067,7 @@ MonoBehaviour:
   _driver: {fileID: 245001223}
   _packageStatusTextController: {fileID: 1297751319935530571}
   _arrow: {fileID: 897730120}
+  <TimerManager>k__BackingField: {fileID: 1686542663}
 --- !u!4 &1161518983
 Transform:
   m_ObjectHideFlags: 0
@@ -1125,7 +1126,7 @@ GameObject:
   - component: {fileID: 1686542664}
   - component: {fileID: 1686542663}
   m_Layer: 0
-  m_Name: Timer
+  m_Name: TimerManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1767,7 +1768,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1297751320426304397}
   m_Layer: 5
-  m_Name: TimerParent
+  m_Name: TimerParentUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

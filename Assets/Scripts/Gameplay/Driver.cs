@@ -32,6 +32,7 @@ public class Driver : MonoBehaviour {
 
 	public event Action<Vector3> OnPackagePicked;
 	public event Action OnPackageDelivered;
+	public event Action OnWrongPackageDestination;
 	
     #region Lifecycle
     void Start() {
@@ -100,7 +101,7 @@ public class Driver : MonoBehaviour {
 				    this._hasPackage = false;
 				    Destroy(other.gameObject);   
 			    } else {
-				    Debug.Log("Wrong Color");
+					this.OnWrongPackageDestination?.Invoke();
 			    }
 		    }   
 	    } else {

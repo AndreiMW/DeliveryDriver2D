@@ -6,6 +6,7 @@
 */
 
 using UnityEngine;
+using StatusPackage = PackageStatusTextController.PackageStatus;
 
 namespace Managers {
 	public class GameManager : UnitySingleton<GameManager> {
@@ -27,6 +28,9 @@ namespace Managers {
 
 		[SerializeField]
 		private DirectionArrow _arrow;
+		
+		[field:SerializeField]
+		public TimerManager TimerManager { get; private set; }
 	
 		private int _numberOfPackages;
 	
@@ -36,6 +40,7 @@ namespace Managers {
 			UserSettings.Instance.LoadSettings();
 			this._driver.OnPackagePicked += this.HandleOnPackagePicked;
 			this._driver.OnPackageDelivered += this.HandleOnPackageDelivered;
+			this._driver.OnWrongPackageDestination += this.HandleDriverGoingToWrongColor;
 		}
 
 		private void Start() {
@@ -64,16 +69,21 @@ namespace Managers {
 
 		private void HandleOnPackagePicked(Vector3 positionToDeliver) {
 			this._arrow.SetTarget(positionToDeliver);
-			this._packageStatusTextController.ShowPackageStatus(PackageStatusTextController.PackageStatus.Picked);
+			this._packageStatusTextController.ShowPackageStatus(StatusPackage.Picked);
 		}
 
 		private void HandleOnPackageDelivered() {
-			this._packageStatusTextController.ShowPackageStatus(PackageStatusTextController.PackageStatus.Delivered);
+			this._packageStatusTextController.ShowPackageStatus(StatusPackage.Delivered);
 			this._arrow.ResetTarget();
 			this._numberOfPackages--;
 			if (this._numberOfPackages == 0){
 				this.GameOver(true);
 			}
+		}
+
+		private void HandleDriverGoingToWrongColor() {
+			this._packageStatusTextController.ShowPackageStatus(StatusPackage.WrongCustomer);
+			this.TimerManager.RemoveTime(10f);
 		}
 		
 		private void SetDriverState(bool canDrive) {

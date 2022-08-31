@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-public class Timer : MonoBehaviour {
+public class TimerManager : MonoBehaviour {
     private float _initialTime;
 
     [SerializeField] 
@@ -35,6 +35,18 @@ public class Timer : MonoBehaviour {
                 }
             }
         }
+    }
+    
+    #endregion
+    
+    #region Public
+
+    /// <summary>
+    /// Remove time from time left.
+    /// </summary>
+    /// <param name="timeAmount">The amount to remove.</param>
+    public void RemoveTime(float timeAmount) {
+	    this._initialTime -= timeAmount;
     }
     
     #endregion

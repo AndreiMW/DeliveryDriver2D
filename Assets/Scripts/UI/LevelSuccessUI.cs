@@ -7,14 +7,5 @@
 
 namespace UI {
 	public class LevelSuccessUI : LevelEndUI {
-		
-		#region Protected
-
-		protected override void HandleButtonAction() {
-			LevelManager.Instance.IncrementLevelIndex();
-			base.HandleButtonAction();
-		}
-
-		#endregion
 	}
 }

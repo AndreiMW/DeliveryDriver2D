@@ -51,6 +51,7 @@ namespace Managers {
 		public void GameOver(bool won) {
 			this.IsGameStarted = false;
 			if (won){
+				LevelManager.Instance.IncrementLevelIndex();
 				UserSettings.Instance.SaveSettings();
 			}
 			UIManager.Instance.ShowLevelEndUI(won);

@@ -28,6 +28,8 @@ public class Driver : MonoBehaviour {
 	private Vector3 _originalPosition;
 	private Quaternion _originalRotation;
 
+	private Package _currentPicekdPackage;
+
 	public event Action<Vector3> OnPackagePicked;
 	public event Action OnPackageDelivered;
 	
@@ -92,7 +94,7 @@ public class Driver : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
 	    if (this._hasPackage) {
 		    if (other.CompareTag("Customer")) {
-			    if (other.GetComponent<SpriteRenderer>().color == this._renderer.color) {
+			    if (other.transform.position == this._currentPicekdPackage.CustomerPosition.position) {
 				    this.OnPackageDelivered?.Invoke();
 				    this.SetCarColor(Color.white);
 				    this._hasPackage = false;
@@ -103,7 +105,8 @@ public class Driver : MonoBehaviour {
 		    }   
 	    } else {
 		    if (other.CompareTag("Package")) {
-			    this.OnPackagePicked?.Invoke(other.GetComponent<Package>().CustomerPosition.position);
+			    this._currentPicekdPackage = other.GetComponent<Package>();
+			    this.OnPackagePicked?.Invoke(this._currentPicekdPackage.CustomerPosition.position);
 			    this._hasPackage = true;
 			    this.SetCarColor(other.GetComponent<SpriteRenderer>().color);
 			    Destroy(other.gameObject);
